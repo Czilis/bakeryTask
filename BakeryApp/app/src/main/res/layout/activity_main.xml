@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="smagabakery.com.bakeryapp.ui.peoplelist.MainActivity">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerPeople"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-</LinearLayout>
+</FrameLayout>

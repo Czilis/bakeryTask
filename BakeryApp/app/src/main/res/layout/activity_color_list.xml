@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose Color of row" />
+
+    <View
+        android:id="@+id/viewRed"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/cellColorRed" />
+
+
+    <View
+        android:id="@+id/viewBlue"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/cellColorBlue" />
+
+
+
+    <View
+        android:id="@+id/viewDefault"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/cellColorDefault" />
+
+
+    <View
+        android:id="@+id/viewGreen"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/cellColorGreen" />
+
+
+</LinearLayout>

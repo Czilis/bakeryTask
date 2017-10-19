@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="cellColorRed">#FF0000</color>
+    <color name="cellColorBlue">#0000ff</color>
+    <color name="cellColorGreen">#008000</color>
+    <color name="cellColorDefault">@android:color/transparent</color>
 </resources>
