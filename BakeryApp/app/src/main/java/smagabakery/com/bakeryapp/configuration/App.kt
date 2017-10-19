@@ -3,7 +3,6 @@ package smagabakery.com.bakeryapp.configuration
 import android.app.Application
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
-import net.danlew.android.joda.JodaTimeAndroid
 import smagabakery.com.bakeryapp.BuildConfig
 import smagabakery.com.bakeryapp.configuration.remote.DefaultJsonProvider
 import smagabakery.com.bakeryapp.configuration.remote.DefaultRetrofitProvider
@@ -17,7 +16,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        JodaTimeAndroid.init(this)
         initSingletons()
     }
 

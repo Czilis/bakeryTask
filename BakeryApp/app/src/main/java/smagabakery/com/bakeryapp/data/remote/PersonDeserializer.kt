@@ -1,7 +1,6 @@
 package smagabakery.com.bakeryapp.data.remote
 
 import com.google.gson.JsonObject
-import org.joda.time.DateTime
 import smagabakery.com.bakeryapp.data.model.Person
 
 object PersonDeserializer {
@@ -12,10 +11,9 @@ object PersonDeserializer {
                     val firstName = getString("firstNamE")
                     val lastName = getString("last_name")
                     val avatarUrl = getNullableStringWithMultipleKeys(listOf("avatar", "avataR"))
-//                todo different date time formats
-                    val bDay = DateTime.now()
+                    val birthDay = getString("bDay")
                     val description = getNullable("description")
-                    Person(firstName, lastName, avatarUrl, bDay, description)
+                    Person(firstName, lastName, avatarUrl, birthDay, description)
                 } catch (exc: Exception) {
 
                     System.err.println(exc)

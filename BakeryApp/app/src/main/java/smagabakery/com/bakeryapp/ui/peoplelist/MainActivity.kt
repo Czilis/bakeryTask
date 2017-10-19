@@ -2,6 +2,7 @@ package smagabakery.com.bakeryapp.ui.peoplelist
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import smagabakery.com.bakeryapp.R
@@ -20,6 +21,10 @@ class MainActivity : AppCompatActivity(), PeopleListView {
         presenter.attachView(this)
 
 
+
+        recyclerPeople.setHasFixedSize(true)
+        recyclerPeople.layoutManager  = LinearLayoutManager(this)
+
         btnFetch.setOnClickListener {
             presenter.fetchPeople()
         }
@@ -36,7 +41,7 @@ class MainActivity : AppCompatActivity(), PeopleListView {
     }
 
     override fun bindPeople(people: People) {
-        showMessage("peple came size ${people.people.size}")
+        recyclerPeople.adapter = PeopleListAdapter(people)
     }
 
     override fun showError(message: String) {
