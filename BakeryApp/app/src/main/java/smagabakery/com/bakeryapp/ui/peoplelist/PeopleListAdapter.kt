@@ -14,8 +14,7 @@ import smagabakery.com.bakeryapp.ui.hide
 import smagabakery.com.bakeryapp.ui.show
 
 
-class PeopleListAdapter(private val people: People) : RecyclerView.Adapter<PeopleViewHolder>() {
-
+class PeopleListAdapter(private var people: People, private val onPersonRowDeleteClicked: (Person) -> Unit) : RecyclerView.Adapter<PeopleViewHolder>() {
     override fun getItemCount(): Int = people.all.size
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
@@ -24,13 +23,12 @@ class PeopleListAdapter(private val people: People) : RecyclerView.Adapter<Peopl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PeopleViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_person, parent, false)
-        return PeopleViewHolder(view)
+        return PeopleViewHolder(view, onPersonRowDeleteClicked)
     }
-
 
 }
 
-class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class PeopleViewHolder(view: View, private val onPersonRowDeleteClicked: (Person) -> Unit) : RecyclerView.ViewHolder(view) {
 
     fun bind(person: Person) {
         with(itemView) {
@@ -39,7 +37,7 @@ class PeopleViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             txtBirthDay.text = person.birthDay
             txtDescriptionValue.text = person.description
 
-            imgDelete.setOnClickListener {  }
+            imgDelete.setOnClickListener { onPersonRowDeleteClicked(person) }
 
             Glide.with(context)
                     .load(person.avatarUrl)
