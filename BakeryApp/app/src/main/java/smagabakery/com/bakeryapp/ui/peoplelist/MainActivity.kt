@@ -12,6 +12,8 @@ import smagabakery.com.bakeryapp.configuration.App
 import smagabakery.com.bakeryapp.data.model.People
 import smagabakery.com.bakeryapp.data.model.Person
 
+private const val CURRENT_RECYCLER_POSITION_KEY = "recycler_view_position"
+
 class MainActivity : AppCompatActivity(), PeopleListView {
 
     private lateinit var presenter: PeopleListPresenter
@@ -23,13 +25,23 @@ class MainActivity : AppCompatActivity(), PeopleListView {
         presenter.attachView(this)
 
 
+        initRecyclerView()
+        presenter.fetchPeople()
 
-        recyclerPeople.setHasFixedSize(true)
-        recyclerPeople.layoutManager = LinearLayoutManager(this)
-        recyclerPeople.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        btnFetch.setOnClickListener { presenter.fetchPeople() }
+    }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putInt(CURRENT_RECYCLER_POSITION_KEY, (recyclerPeople.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition())
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.also {
+            val recyclerPosition = it.getInt(CURRENT_RECYCLER_POSITION_KEY)
+            (recyclerPeople.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(recyclerPosition, 0)
+        }
 
     }
 
@@ -48,6 +60,13 @@ class MainActivity : AppCompatActivity(), PeopleListView {
 
     override fun showError(message: String) {
         showMessage(message)
+    }
+
+    private fun initRecyclerView() {
+
+        recyclerPeople.setHasFixedSize(true)
+        recyclerPeople.layoutManager = LinearLayoutManager(this)
+        recyclerPeople.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
 
     private fun showConfirmationDialog(person: Person) {

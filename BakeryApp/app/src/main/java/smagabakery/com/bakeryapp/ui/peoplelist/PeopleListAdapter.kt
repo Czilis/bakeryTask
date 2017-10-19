@@ -48,12 +48,12 @@ class PeopleViewHolder(view: View, private val onPersonRowDeleteClicked: (Person
             txtDescription.setOnClickListener {
                 when (txtDescriptionValue.visibility) {
                     View.VISIBLE -> {
-                        txtDescription.text = context.getText(R.string.l_hide_description)
+                        txtDescription.text = context.getText(R.string.l_show_description)
                         txtDescriptionValue.hide()
 
                     }
                     View.GONE -> {
-                        txtDescription.text = context.getText(R.string.l_show_description)
+                        txtDescription.text = context.getText(R.string.l_hide_description)
                         txtDescriptionValue.show()
                     }
 
