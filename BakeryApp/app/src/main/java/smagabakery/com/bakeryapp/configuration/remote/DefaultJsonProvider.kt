@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder
 import smagabakery.com.bakeryapp.data.model.People
 import smagabakery.com.bakeryapp.data.remote.PeopleDeserializer
 
-class DefaultJsonProvider : JsonConfigurationProvider {
+class DefaultJsonProvider : JsonProvider {
     override fun provide(): Gson =
             GsonBuilder()
                     .registerTypeAdapter(People::class.java, PeopleDeserializer())

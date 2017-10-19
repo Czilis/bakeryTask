@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="smagabakery.com.bakeryapp.ui.MainActivity">
+    tools:context="smagabakery.com.bakeryapp.ui.peoplelist.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,4 +15,9 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/btnFetch"
+        android:text="FETCh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </android.support.constraint.ConstraintLayout>
