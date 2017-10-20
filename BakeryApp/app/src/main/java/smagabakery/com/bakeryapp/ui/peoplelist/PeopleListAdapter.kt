@@ -16,13 +16,21 @@ import smagabakery.com.bakeryapp.ui.hide
 import smagabakery.com.bakeryapp.ui.show
 
 
-class PeopleListAdapter(private var people: People, private val onPersonRowDeleteClicked: (Person) -> Unit, private val onRowClicked: (Int) -> Unit, var coloredRows: List<Pair<Int, ViewColor>> = emptyList()) : RecyclerView.Adapter<PeopleListAdapter.PeopleViewHolder>() {
+class PeopleListAdapter(private var people: People, private val onPersonRowDeleteClicked: (Person) -> Unit, private val onRowClicked: (Person) -> Unit, coloredRows: List<Pair<Long, ViewColor>>) : RecyclerView.Adapter<PeopleListAdapter.PeopleViewHolder>() {
+    var coloredRows = coloredRows
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
     override fun getItemCount(): Int = people.all.size
 
     override fun onBindViewHolder(holder: PeopleViewHolder, position: Int) {
+        val currentPerson = people.all[position]
+
         val backgroundColor = with(coloredRows) {
-            if (any { it.first == position }) {
-                first { it.first == position }.second
+            if (coloredRows.any { it.first == currentPerson.id }) {
+                first { it.first == currentPerson.id }.second
             } else ViewColor.DEFAULT
         }
         holder.bind(people.all[position], backgroundColor)
@@ -33,7 +41,8 @@ class PeopleListAdapter(private var people: People, private val onPersonRowDelet
         return PeopleViewHolder(view, onPersonRowDeleteClicked, onRowClicked)
     }
 
-    inner class PeopleViewHolder(view: View, private val onPersonRowDeleteClicked: (Person) -> Unit, private val onRowClicked: (Int) -> Unit) : RecyclerView.ViewHolder(view) {
+
+    inner class PeopleViewHolder(view: View, private val onPersonRowDeleteClicked: (Person) -> Unit, private val onRowClicked: (Person) -> Unit) : RecyclerView.ViewHolder(view) {
 
         fun bind(person: Person, backgroundColor: ViewColor) {
             with(itemView) {
@@ -66,7 +75,7 @@ class PeopleListAdapter(private var people: People, private val onPersonRowDelet
                     }
                 }
 
-                setOnClickListener { onRowClicked(people.all.indexOf(person)) }
+                setOnClickListener { onRowClicked(person) }
             }
         }
 

@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.widget.Toast
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity(), PeopleListView {
 
     private lateinit var presenter: PeopleListPresenter
     private lateinit var adapter: PeopleListAdapter
-    private var coloredRows: MutableList<Pair<Int, ViewColor>> = mutableListOf()
+    private var coloredRows: MutableList<Pair<Long, ViewColor>> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,30 +83,29 @@ class MainActivity : AppCompatActivity(), PeopleListView {
     companion object {
         val KEY_COLOR_REQUEST_CODE = 11
         val KEY_COLOR = "color_key"
-        val KEY_ROW_INDEX = "row_index_key"
+        val KEY_PERSON_ID = "person_id_key"
         private val KEY_COLORED_ROWS = "colored_rows_key"
     }
 
     private fun handleRowColorChosen(data: Intent?) {
         data?.getStringExtra(KEY_COLOR)?.also {
             val color = ViewColor.valueOf(it)
-            val rowIndex = data.getIntExtra(KEY_ROW_INDEX, -1)
-            if (rowIndex != -1) {
+            val personId = data.getLongExtra(KEY_PERSON_ID, -1L)
+            if (personId != -1L) {
                 coloredRows.firstOrNull {
-                    it.first == rowIndex
+                    it.first == personId
                 }?.also {
                     coloredRows.remove(it)
                 }
-                coloredRows.add(Pair(rowIndex, color))
+                coloredRows.add(Pair(personId, color))
                 adapter.coloredRows = coloredRows
-                adapter.notifyItemChanged(rowIndex)
             }
         }
     }
 
-    private fun openColorListActivity(rowIndex: Int) {
+    private fun openColorListActivity(person: Person) {
         val intent = Intent(this, ColorListActivity::class.java)
-        intent.putExtra(KEY_ROW_INDEX, rowIndex)
+        intent.putExtra(KEY_PERSON_ID, person.id)
         startActivityForResult(intent, KEY_COLOR_REQUEST_CODE)
     }
 
@@ -120,6 +120,10 @@ class MainActivity : AppCompatActivity(), PeopleListView {
                 .setPositiveButton("Delete", { dialogInterface, _ ->
                     dialogInterface.dismiss()
                     presenter.deletePerson(person)
+                    coloredRows.firstOrNull { it.first == person.id }?.also {
+                        coloredRows.removeAt(coloredRows.indexOf(it))
+                        adapter.coloredRows = coloredRows
+                    }
                 })
                 .setNegativeButton("Cancel", { dialogInterface, _ -> dialogInterface.dismiss() })
                 .create()
@@ -132,10 +136,10 @@ class MainActivity : AppCompatActivity(), PeopleListView {
     private fun showMessage(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
-private fun MutableList<Pair<Int, ViewColor>>.parcelled(): ArrayList<ParcelledColoredRow> = ArrayList(map { ParcelledColoredRow(it.first, it.second) }.toList())
+private fun MutableList<Pair<Long, ViewColor>>.parcelled(): ArrayList<ParcelledColoredRow> = ArrayList(map { ParcelledColoredRow(it.first, it.second) }.toList())
 
 
 @Parcelize
-private class ParcelledColoredRow(val rowIndex: Int, val viewColor: ViewColor) : Parcelable {
-    fun toPair() = Pair(rowIndex, viewColor)
+private class ParcelledColoredRow(val personId: Long, val viewColor: ViewColor) : Parcelable {
+    fun toPair() = Pair(personId, viewColor)
 }

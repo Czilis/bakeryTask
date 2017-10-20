@@ -24,7 +24,7 @@ class ColorListActivity : AppCompatActivity() {
     private fun finishWithCustomResult(color: ViewColor) {
         val intent = Intent()
         intent.putExtra(MainActivity.KEY_COLOR, color.name)
-        intent.putExtra(MainActivity.KEY_ROW_INDEX , getIntent().getIntExtra(MainActivity.KEY_ROW_INDEX, -1))
+        intent.putExtra(MainActivity.KEY_PERSON_ID, getIntent().getLongExtra(MainActivity.KEY_PERSON_ID, -1))
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
